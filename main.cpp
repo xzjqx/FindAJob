@@ -7,7 +7,7 @@ int main()
         cout << array[i] << " ";
     }
     cout << endl;
-    array = InsertSort(array);
+    MergeSort(array, 0, array.size()-1);
     for(int i = 0; i < array.size(); i ++) {
         cout << array[i] << " ";
     }

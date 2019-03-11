@@ -10,3 +10,5 @@ using namespace std;
 #include "Sort/BubbleSort.h"
 #include "Sort/SelectSort.h"
 #include "Sort/InsertSort.h"
+#include "Sort/ShellSort.h"
+#include "Sort/MergeSort.h"
