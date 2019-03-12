@@ -7,8 +7,8 @@
 #include <stack>
 using namespace std;
 
-#include "Sort/BubbleSort.h"
-#include "Sort/SelectSort.h"
-#include "Sort/InsertSort.h"
-#include "Sort/ShellSort.h"
-#include "Sort/MergeSort.h"
+#include "BubbleSort.h"
+#include "SelectSort.h"
+#include "InsertSort.h"
+#include "ShellSort.h"
+#include "MergeSort.h"
