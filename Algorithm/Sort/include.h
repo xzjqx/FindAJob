@@ -12,3 +12,4 @@ using namespace std;
 #include "InsertSort.h"
 #include "ShellSort.h"
 #include "MergeSort.h"
+#include "QuickSort.h"
