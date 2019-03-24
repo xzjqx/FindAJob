@@ -1,4 +1,5 @@
 main
 test
 test.cpp
-.vscode/settings.json
+.vscode/*
+C++/Algorithm/Search/main.cpp
