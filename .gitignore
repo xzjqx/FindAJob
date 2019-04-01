@@ -3,3 +3,5 @@ test
 test.cpp
 .vscode/*
 C++/Algorithm/Search/main.cpp
+*.exe
+*.o
