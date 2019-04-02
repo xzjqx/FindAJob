@@ -21,11 +21,11 @@ int main()
                 sum += Map[i][j];
             }
         double cc = Map[x][y], ss = 1;
+        cc = 1 - pow(1-cc, t);
         double tmp = 1.0 - sum / nodes;
         for(int i = 0; i < t; i ++)
             ss *= tmp;
         ss = 1.0 - ss;
-        printf("%f\n", ss);
         if(abs(cc-ss) < eps)
             printf("equal\n%.2f\n", cc);
         else if(cc-eps > ss)
