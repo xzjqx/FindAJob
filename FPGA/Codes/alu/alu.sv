@@ -19,18 +19,21 @@ module alu(
     output logic [1:0] ov
 );
 
+    logic [3:0] A0, B0;
+    assign A0 = (aluop == `MULT && A[3] == 1'b1) ? ((~A) + 1) : A;
+    assign B0 = (aluop == `SLT || aluop == `SUB || (aluop == `MULT && B[3] == 1'b1)) ? ((~B) + 1) : B;
+
     // mult
-    logic [7:0] mulres_sign, mulres_unsign;
-    assign mulres_sign   = ($signed(A) * $signed(B));
-    assign mulres_unsign = ($unsigned({1'b0,A}) * $unsigned({1'b0,B}));
+    logic [7:0] temp, mulres;
+    assign temp = A0 * B0;
+    assign mulres = (aluop == `MULT && (A[3] ^ B[3])) ? (~temp + 1) : temp;
 
     // add / sub
-    logic [3:0] B0, S;
+    logic [3:0] S;
     logic C;
-    assign B0 = (aluop == `SUB  ) ? ((~B) + 1) : B;
     rca rca0(.A(A), .B(B0), .S(S), .C(C));
-    assign ov[1] = (~A[3] & ~B0[3] & S[3]) + (A[3] & B0[3] & ~S[3]);
-    assign ov[0] = C;
+    assign ov[1] = (aluop == `ADD || aluop == `SUB) ? (~A[3] & ~B0[3] & S[3]) + (A[3] & B0[3] & ~S[3]) : 1'b0;
+    assign ov[0] = (aluop == `ADD || aluop == `SUB) ? C : 1'b0;
 
     assign y0 = (aluop == `AND  ) ? A & B : 
                 (aluop == `OR   ) ? A | B : 
@@ -41,13 +44,13 @@ module alu(
                 (aluop == `SLL  ) ? A << B[1:0] : 
                 (aluop == `SRL  ) ? A >> B[1:0] : 
                 (aluop == `SRA  ) ? (({4{A[3]}} << (3'd4-{1'b0, B[1:0]})) | A >> B[1:0]) : 
-                (aluop == `MULTU) ? mulres_unsign[3:0] : 
-                (aluop == `MULT ) ? mulres_sign[3:0] : 
+                (aluop == `MULTU) ? mulres[3:0] : 
+                (aluop == `MULT ) ? mulres[3:0] : 
                 (aluop == `ADD  ) ? S : 
                 (aluop == `SUB  ) ? S : 
-                (aluop == `SLT  ) ? (($signed(A) < $signed(B)) ? 4'h1 : 4'h0) : 4'b0000; 
+                (aluop == `SLT  ) ? ((A[3] && !B[3]) || (A[3] && B[3] && S[3]) || (!A[3] && !B[3] && S[3])) : 4'b0000; 
     
-    assign y1 = (aluop == `MULTU) ? mulres_unsign[7:4] : 
-                (aluop == `MULT ) ? mulres_sign[7:4] : 4'b0000; 
+    assign y1 = (aluop == `MULTU) ? mulres[7:4] : 
+                (aluop == `MULT ) ? mulres[7:4] : 4'b0000; 
 
 endmodule

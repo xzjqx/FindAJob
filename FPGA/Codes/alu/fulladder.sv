@@ -4,6 +4,6 @@ module fulladder(
 );
 
     assign S = A ^ B ^ Cin;
-    assign Cout = A & B + (A ^ B) & Cin;
+    assign Cout = (A & B) + ((A ^ B) & Cin);
 
 endmodule

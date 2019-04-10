@@ -123,7 +123,7 @@ module alu_tb();
         end else begin
             result[14] = 1;
         end
-        A = 4'b1101; B = 4'b0000; aluop = 4'b1101; #50; // SLT      y0 = 4'b0001
+        A = 4'b0101; B = 4'b0111; aluop = 4'b1101; #50; // SLT      y0 = 4'b0001
         if(y0 != 4'b0001) begin
             $display("Case 16: SLT is wrong");
         end else begin
